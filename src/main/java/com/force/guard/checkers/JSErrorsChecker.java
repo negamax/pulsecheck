@@ -62,20 +62,4 @@ public class JSErrorsChecker extends ErrorChecker {
     String getSiteNameForErrorCheck(String name) {
         return "http://" + name;
     }
-
-    @Override
-    public void run() {
-        //we run forever and ever!
-        while(true) {
-
-            for(final String siteName : sites.getSiteNames()) {
-                String siteNameHttp = "http://" + siteName;
-
-                this.getResultForSite(siteNameHttp);
-                this.saveResult(siteName);
-            }
-
-            doWait(this.waitInterval);
-        }
-    }
 }
