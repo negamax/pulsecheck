@@ -21,5 +21,5 @@ use case is to monitor internet properties but any protocol or checks can be add
 5. Following checkers are included
     * Javascript errors
     * Http status (coming soon)
-    * Https cert expiration (coming soon)
+    * Https cert expiration 
    
