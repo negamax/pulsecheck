@@ -1,13 +1,17 @@
 package com.force.guard;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.force.guard.aws.data.Sites;
 import com.force.guard.checkers.JSErrorsChecker;
+import com.force.guard.checkers.SSLCertChecker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+
+import javax.net.ssl.HttpsURLConnection;
+import java.net.URL;
+import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
 
 @SpringBootApplication
 @ComponentScan
@@ -17,16 +21,14 @@ public class AliveApplication implements CommandLineRunner {
     }
 
     @Autowired
-    private Sites sites;
-
-    @Autowired
-    private DynamoDBMapper dynamoDBMapper;
-
-    @Autowired
     private JSErrorsChecker jsErrorsChecker;
+
+    @Autowired
+    private SSLCertChecker sslCertChecker;
 
     @Override
     public void run(String... strings) throws Exception {
         new Thread(jsErrorsChecker).start();
+        new Thread(sslCertChecker).start();
     }
 }

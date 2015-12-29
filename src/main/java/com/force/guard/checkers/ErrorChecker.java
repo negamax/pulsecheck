@@ -30,15 +30,20 @@ public abstract class ErrorChecker implements Runnable {
     public void run() {
         //we run forever and ever!
         while(true) {
+            try
+            {
+                for(final String siteName : sites.getSiteNames()) {
+                    String siteNameHttp = getSiteNameForErrorCheck(siteName);
 
-            for(final String siteName : sites.getSiteNames()) {
-                String siteNameHttp = getSiteNameForErrorCheck(siteName);
+                    this.getResultForSite(siteNameHttp);
+                    this.saveResult(siteName);
+                }
 
-                this.getResultForSite(siteNameHttp);
-                this.saveResult(siteName);
+                doWait(this.waitInterval);
             }
-
-            doWait(this.waitInterval);
+            catch (Exception ex) {
+                //never die
+            }
         }
     }
 
