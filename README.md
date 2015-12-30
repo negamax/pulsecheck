@@ -23,3 +23,11 @@ use case is to monitor internet properties but any protocol or checks can be add
     * Http status 
     * Https cert expiration 
    
+# REST Endpoints (JSON Output) (level 0 REST)
+      
+* /sites - list of sites being monitored with each entry containing flags for errors
+* /sslcertconnectionerrors - list of sites that failed on ssl connection
+* /sslcertexpirationerrors - list of sites having their ssl cert expiring within a said time (default 6 months)  
+* /javascripterrors - list of sites with corresponding js errors captured in last two hours (default)
+* /httperrors - list of sites which generated http connection error in last one hour (default)
+      
