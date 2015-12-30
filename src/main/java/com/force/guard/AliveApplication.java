@@ -3,6 +3,7 @@ package com.force.guard;
 import com.force.guard.checkers.HttpConnectionChecker;
 import com.force.guard.checkers.JSErrorsChecker;
 import com.force.guard.checkers.SSLCertChecker;
+import com.force.guard.services.HouseKeeper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -25,10 +26,14 @@ public class AliveApplication implements CommandLineRunner {
     @Autowired
     private HttpConnectionChecker httpConnectionChecker;
 
+    @Autowired
+    private HouseKeeper houseKeeper;
+
     @Override
     public void run(String... strings) throws Exception {
-        new Thread(jsErrorsChecker).start();
-        new Thread(sslCertChecker).start();
-        new Thread(httpConnectionChecker).start();
+//        new Thread(jsErrorsChecker).start();
+//        new Thread(sslCertChecker).start();
+//        new Thread(httpConnectionChecker).start();
+        new Thread(houseKeeper).start();
     }
 }
