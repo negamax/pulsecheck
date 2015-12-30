@@ -20,6 +20,6 @@ use case is to monitor internet properties but any protocol or checks can be add
 4. Comes with a reports portal (coming really soon)
 5. Following checkers are included
     * Javascript errors
-    * Http status (coming soon)
+    * Http status 
     * Https cert expiration 
    

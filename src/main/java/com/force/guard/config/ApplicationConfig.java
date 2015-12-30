@@ -22,6 +22,8 @@ import java.net.URL;
  */
 @Configuration
 public class ApplicationConfig {
+    public static final int CONNECTION_FAILED_CODE = -10;
+
     @Value("${amazon.aws.accesskey}")
     private String AWS_ACCESS_KEY;
 

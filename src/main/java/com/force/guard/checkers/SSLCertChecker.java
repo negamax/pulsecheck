@@ -1,6 +1,7 @@
 package com.force.guard.checkers;
 
 import com.force.guard.aws.data.models.SSLCert;
+import com.force.guard.config.ApplicationConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
-import java.util.StringTokenizer;
 
 /**
  * Created by mohitaggarwal on 29/12/2015.
@@ -57,20 +57,12 @@ public class SSLCertChecker extends ErrorChecker {
             conn.disconnect();
         } catch (IOException e) {
             //error
-            expiryTimeStamp = -10;
+            expiryTimeStamp = ApplicationConfig.CONNECTION_FAILED_CODE;
         }
     }
 
     @Override
     String getSiteNameForErrorCheck(String name) {
-
-        StringTokenizer st = new StringTokenizer(name, ".");
-
-        //convert abc.com -> www.abc.com
-        if(st.countTokens() == 2) {
-            name = "www." + name;
-        }
-
-        return "https://" + name;
+        return "https://" + this.prependWWW(name);
     }
 }

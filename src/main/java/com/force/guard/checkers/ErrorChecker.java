@@ -5,6 +5,8 @@ import com.force.guard.aws.data.Sites;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.StringTokenizer;
+
 /**
  * Created by mohitaggarwal on 28/12/2015.
  */
@@ -26,6 +28,17 @@ public abstract class ErrorChecker implements Runnable {
         }
     }
 
+    protected String prependWWW(String name) {
+        StringTokenizer st = new StringTokenizer(name, ".");
+
+        //convert abc.com -> www.abc.com
+        if(st.countTokens() == 2) {
+            name = "www." + name;
+        }
+
+        return name;
+    }
+
     @Override
     public void run() {
         //we run forever and ever!
@@ -43,6 +56,7 @@ public abstract class ErrorChecker implements Runnable {
             }
             catch (Exception ex) {
                 //never die
+                ex.printStackTrace();
             }
         }
     }
