@@ -5,6 +5,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
+import com.amazonaws.services.dynamodbv2.model.ConditionalOperator;
 import com.force.guard.aws.data.models.HttpError;
 import com.force.guard.aws.data.models.JSError;
 import com.force.guard.aws.data.models.SSLCert;
@@ -97,7 +98,44 @@ public class ErrorReporter implements Runnable {
 
     private void findHttpErrors() {
         //in last one hour httpstatus was different from 200 or 310
+        long fromtime = new Date().getTime() - (3600000l);
 
+        AttributeValue value = new AttributeValue();
+        value.setN("" + fromtime);
+
+        DynamoDBScanExpression httpErrorExpression = new DynamoDBScanExpression();
+
+        httpErrorExpression.addFilterCondition("timestamp", new Condition().withComparisonOperator(ComparisonOperator.GT).withAttributeValueList(value));
+
+        AttributeValue successCode = new AttributeValue();
+        successCode.setN("" + 200);
+
+        AttributeValue redirectCode = new AttributeValue();
+        redirectCode.setN("" + 301);
+
+        httpErrorExpression.addFilterCondition("httpstatus", new Condition().withComparisonOperator(ComparisonOperator.NE).withAttributeValueList(successCode));
+        httpErrorExpression.addFilterCondition("httpstatus", new Condition().withComparisonOperator(ComparisonOperator.NE).withAttributeValueList(redirectCode));
+        httpErrorExpression.setConditionalOperator(ConditionalOperator.AND);
+
+        synchronized (this) {
+            this.httpErrors = dynamoDBMapper.scan(HttpError.class, httpErrorExpression);
+
+            List<HttpError> httpErrorsCopy = new ArrayList<>(this.httpErrors);
+
+            //for some reason second filter (301) is overwriting first(200)
+            //filtering here
+            List<HttpError> errorList = new ArrayList<>();
+
+            for(HttpError httpError : this.httpErrors) {
+                if(httpError.getHttpstatus() == 200) {
+                    errorList.add(httpError);
+                }
+            }
+
+            httpErrorsCopy.removeAll(errorList);
+
+            this.httpErrors = httpErrorsCopy;
+        }
     }
 
     private void findSSLCertErrors() {
@@ -161,5 +199,39 @@ public class ErrorReporter implements Runnable {
 
     public synchronized List<HttpError> getHttpErrors() {
         return httpErrors;
+    }
+
+    public synchronized boolean hasJSError(String name) {
+        return this.jsErrors.containsKey(name);
+    }
+
+    public synchronized boolean hasHttpError(String name) {
+        for(HttpError httpError : this.httpErrors) {
+            if(httpError.getName().equals(name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public synchronized boolean hashSSLConnectionError(String name) {
+        for(SSLCert sslCert : this.sslCertConnectionErrors) {
+            if(sslCert.getName().equals(name)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean hasSSLCertError(String name) {
+        for(SSLCert sslCert : this.sslCertExpiringSoon) {
+            if(sslCert.getName().equals(name)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

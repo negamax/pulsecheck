@@ -6,6 +6,7 @@ import com.force.guard.checkers.SSLCertChecker;
 import com.force.guard.services.ErrorReporter;
 import com.force.guard.services.HouseKeeper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,9 @@ public class AliveApplication implements CommandLineRunner {
     public static void main(String[] args) {
         SpringApplication.run(AliveApplication.class, args);
     }
+
+    @Value("${run.only.frontend}")
+    private boolean runOnlyFrontendServices;
 
     @Autowired
     private JSErrorsChecker jsErrorsChecker;
@@ -35,10 +39,13 @@ public class AliveApplication implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-//        new Thread(jsErrorsChecker).start();
-//        new Thread(sslCertChecker).start();
-//        new Thread(httpConnectionChecker).start();
-//        new Thread(houseKeeper).start();
+        if(!runOnlyFrontendServices) {
+            new Thread(jsErrorsChecker).start();
+            new Thread(sslCertChecker).start();
+            new Thread(httpConnectionChecker).start();
+            new Thread(houseKeeper).start();
+        }
+
         new Thread(errorReporter).start();
     }
 }
