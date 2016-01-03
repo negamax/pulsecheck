@@ -27,3 +27,19 @@ app.controller('JavaScriptDetailsController', function ($scope, $http) {
         });
     });
 });
+
+app.controller('SSLDetailsController', function ($scope, $http) {
+    $http.get('/sslcertconnectionerrors').then(function(response){
+        $scope.sslconnerrors = angular.fromJson(response.data);
+    });
+
+    $http.get('/sslcertexpirationerrors').then(function(response){
+        $scope.sslexerrors = angular.fromJson(response.data);
+    });
+});
+
+app.controller('HTTPDetailsController', function ($scope, $http) {
+    $http.get('/httperrors').then(function(response){
+        $scope.httperrors = angular.fromJson(response.data);
+    });
+});

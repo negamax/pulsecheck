@@ -17,7 +17,7 @@ use case is to monitor internet properties but any protocol or checks can be add
 1. Read and write from AWS Dynamodb
 2. Easy to add new checkers (in absence of better name)
 3. Uses Spring framework and other best practices
-4. Comes with a reports portal (coming really soon)
+4. Comes with a reports portal
 5. Following checkers are included
     * Javascript errors
     * Http status 

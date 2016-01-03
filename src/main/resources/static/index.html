@@ -68,12 +68,43 @@
 
 
             <uib-tab heading="SSL Details">
+                <div ng-controller="SSLDetailsController">
+                    <h5>SSL Connection Failed</h5>
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th width="15%">Site</th>
+                            </tr>
+                            </thead>
+                            <tr ng-repeat="sslerror in sslconnerrors">
+                                <td>{{sslerror.name}}</td>
+                            </tr>
+                        </table>
+                    <hr/>
 
+                    <h5>SSL Certificate Due to Expire Within Six Months</h5>
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th width="15%">Site</th>
+                            <th width="15%" style="text-align: center">Expiration Data</th>
+                        </tr>
+                        </thead>
+                        <tr ng-repeat="sslerror in sslexerrors">
+                            <td>{{sslerror.name}}</td>
+                            <td align="center">{{sslerror.expiryDate | date:'dd/MM/yyyy HH:mm'}}</td>
+                        </tr>
+                    </table>
+
+                </div>
             </uib-tab>
 
 
             <uib-tab heading="HTTP Details">
+                <div ng-controller="HTTPDetailsController">
 
+                </div>
             </uib-tab>
 
         </uib-tabset>
