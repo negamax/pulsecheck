@@ -1,0 +1,9 @@
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
+.error-color {
+    color: red;
+}
+
+.success-color {
+    color: green;
+}

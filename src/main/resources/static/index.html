@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html ng-app="pulsecheck">
+<head lang="en">
+    <meta charset="UTF-8">
+    <script type="application/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <script type="application/javascript" src="js/lib/ui-bootstrap-tpls-0.14.3.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    <script type="text/javascript" src="js/app.js"></script>
+
+    <title>Pulse Check</title>
+</head>
+<body>
+<div>
+
+    <div>
+        <uib-tabset>
+            <uib-tab heading="Monitoring Summary">
+                <div ng-controller="SitesStatusController">
+                 <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th width="15%">Site</th>
+                        <th width="15%" style="text-align: center">Javascript</th>
+                        <th width="15%" style="text-align: center">SSL</th>
+                        <th width="15%" style="text-align: center">HTTP</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="site in sites">
+                        <td width="15%">{{site.name}}</td>
+                        <td width="15%" align="center"><span ng-class="findHighlighter({{site.jsError}})"></span></td>
+                        <td width="15%" align="center"><span ng-class="findHighlighter({{site.sslConnectionError || site.sslCertError}})"></span></td>
+                        <td width="15%" align="center"><span ng-class="findHighlighter({{site.httpError}})"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </uib-tab>
+
+            <uib-tab heading="Javascript Details">
+
+                <div ng-controller="JavaScriptDetailsController">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th width="15%">Site</th>
+                            <th width="45%" style="text-align: center">Error Information</th>
+                            <th width="15%" style="text-align: center">Last Checked</th>
+                        </tr>
+                        </thead>
+                        <tr ng-repeat="jserror in jserrors">
+                            <td>{{jserror.name}}</td>
+                            <td>
+                                <li ng-repeat="error in jserror.errors">
+                                    {{error}}
+                                </li>
+                            </td>
+                            <td align="center">{{jserror.timestamp | date:'dd/MM/yyyy HH:mm'}}</td>
+                        </tr>
+                    </table>
+                </div>
+
+            </uib-tab>
+
+
+
+            <uib-tab heading="SSL Details">
+
+            </uib-tab>
+
+
+            <uib-tab heading="HTTP Details">
+
+            </uib-tab>
+
+        </uib-tabset>
+
+    </div>
+</div>
+</body>
+</html>

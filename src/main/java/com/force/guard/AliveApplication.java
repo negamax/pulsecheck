@@ -39,6 +39,7 @@ public class AliveApplication implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+
         if(!runOnlyFrontendServices) {
             new Thread(jsErrorsChecker).start();
             new Thread(sslCertChecker).start();
