@@ -103,7 +103,22 @@
 
             <uib-tab heading="HTTP Details">
                 <div ng-controller="HTTPDetailsController">
-
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th width="15%">Site</th>
+                            <th width="15%" style="text-align: center">HTTP Status</th>
+                            <th width="15%" style="text-align: center">Last Checked</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="httperror in httperrors">
+                            <td width="15%">{{httperror.name}}</td>
+                            <td width="15%" align="center">{{httperror.httpstatus}}</td>
+                            <td width="15%" align="center">{{httperror.timestamp | date:'dd/MM/yyyy HH:mm'}}</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </uib-tab>
 

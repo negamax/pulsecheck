@@ -225,7 +225,7 @@ public class ErrorReporter implements Runnable {
         return false;
     }
 
-    public boolean hasSSLCertError(String name) {
+    public synchronized boolean hasSSLCertError(String name) {
         for(SSLCert sslCert : this.sslCertExpiringSoon) {
             if(sslCert.getName().equals(name)) {
                 return true;
