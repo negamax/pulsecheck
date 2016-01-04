@@ -127,7 +127,7 @@ public class ErrorReporter implements Runnable {
             List<HttpError> errorList = new ArrayList<>();
 
             for(HttpError httpError : this.httpErrors) {
-                if(httpError.getHttpstatus() == 200) {
+                if(httpError.getHttpstatus() == 200 || httpError.getHttpstatus() == 302) {
                     errorList.add(httpError);
                 }
             }
