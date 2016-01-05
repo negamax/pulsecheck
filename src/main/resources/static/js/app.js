@@ -3,8 +3,23 @@
  */
 var app = angular.module('pulsecheck', ['ui.bootstrap']);
 
-app.controller('SitesStatusController', function($scope, $http) {
-        $http.get('/sites').then(function(response){
+//service to generate random numbers
+app.factory('randomnumber', function(){
+
+    var obj = {};
+
+    obj.getRandomNumber = function() {
+        return Math.floor((Math.random() * Number.MAX_VALUE))
+    };
+
+    return obj;
+});
+
+app.controller('SitesStatusController', ['$scope', '$http', 'randomnumber', function($scope, $http, random) {
+
+    console.log(random.getRandomNumber());
+
+        $http.get('/sites?token=' + random.getRandomNumber()).then(function(response){
             $scope.sites = response.data;
         });
 
@@ -14,7 +29,7 @@ app.controller('SitesStatusController', function($scope, $http) {
             }
             return "glyphicon glyphicon-ok-sign success-color";
         }
-});
+}]);
 
 app.controller('JavaScriptDetailsController', function ($scope, $http) {
     $http.get('/javascripterrors').then(function(response){
