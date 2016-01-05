@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.force.guard.aws.data.models.Site;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -22,8 +23,8 @@ public class Sites {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Cacheable("sites")
     public List<String> getSiteNames() {
-
         List<Site> sites = dynamoDBMapper.scan(Site.class, new DynamoDBScanExpression());
 
         List<String> siteNames = new ArrayList<>();

@@ -10,6 +10,7 @@ import com.force.guard.aws.data.models.HttpError;
 import com.force.guard.aws.data.models.JSError;
 import com.force.guard.aws.data.models.SSLCert;
 import com.force.guard.config.ApplicationConfig;
+import com.force.guard.util.CacheEvicter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class ErrorReporter implements Runnable {
     @Autowired
     private DynamoDBMapper dynamoDBMapper;
 
+    @Autowired
+    private CacheEvicter cacheEvicter;
+
     private List<SSLCert> sslCertConnectionErrors = new ArrayList<>();
     private List<SSLCert> sslCertExpiringSoon = new ArrayList<>();
     private Map<String, List<JSError>> jsErrors = new HashMap<>();
@@ -45,6 +49,7 @@ public class ErrorReporter implements Runnable {
                 findHttpErrors();
                 findJSErrors();
 
+                this.cacheEvicter.clearCache();
                 Thread.sleep(waitInterval);
             } catch (Exception ex) {
                 ex.printStackTrace();

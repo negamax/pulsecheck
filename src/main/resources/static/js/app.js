@@ -5,7 +5,6 @@ var app = angular.module('pulsecheck', ['ui.bootstrap']);
 
 //service to generate random numbers
 app.factory('randomnumber', function(){
-
     var obj = {};
 
     obj.getRandomNumber = function() {
