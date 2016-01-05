@@ -16,9 +16,6 @@ app.factory('randomnumber', function(){
 });
 
 app.controller('SitesStatusController', ['$scope', '$http', 'randomnumber', function($scope, $http, random) {
-
-    console.log(random.getRandomNumber());
-
         $http.get('/sites?token=' + random.getRandomNumber()).then(function(response){
             $scope.sites = response.data;
         });
@@ -31,8 +28,8 @@ app.controller('SitesStatusController', ['$scope', '$http', 'randomnumber', func
         }
 }]);
 
-app.controller('JavaScriptDetailsController', function ($scope, $http) {
-    $http.get('/javascripterrors').then(function(response){
+app.controller('JavaScriptDetailsController', ['$scope', '$http', 'randomnumber', function($scope, $http, random) {
+    $http.get('/javascripterrors?token=' + random.getRandomNumber()).then(function(response){
         var jserrorsLocal = angular.fromJson(response.data);
 
         $scope.jserrors = [];
@@ -41,20 +38,20 @@ app.controller('JavaScriptDetailsController', function ($scope, $http) {
             $scope.jserrors.push(angular.fromJson(value[0]));
         });
     });
-});
+}]);
 
-app.controller('SSLDetailsController', function ($scope, $http) {
-    $http.get('/sslcertconnectionerrors').then(function(response){
+app.controller('SSLDetailsController', ['$scope', '$http', 'randomnumber', function($scope, $http, random) {
+    $http.get('/sslcertconnectionerrors?token=' + random.getRandomNumber()).then(function(response){
         $scope.sslconnerrors = angular.fromJson(response.data);
     });
 
-    $http.get('/sslcertexpirationerrors').then(function(response){
+    $http.get('/sslcertexpirationerrors?token=' + random.getRandomNumber()).then(function(response){
         $scope.sslexerrors = angular.fromJson(response.data);
     });
-});
+}]);
 
-app.controller('HTTPDetailsController', function ($scope, $http) {
-    $http.get('/httperrors').then(function(response){
+app.controller('HTTPDetailsController', ['$scope', '$http', 'randomnumber', function($scope, $http, random) {
+    $http.get('/httperrors?token=' + random.getRandomNumber()).then(function(response){
         $scope.httperrors = angular.fromJson(response.data);
     });
-});
+}]);
