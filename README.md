@@ -6,6 +6,10 @@ Pulse check is a simple utility to check websites for errors and reliability. Cu
 javascript errors, http status checks and ssl cert expiration. But new checks can be added easily. Original intention and
 use case is to monitor internet properties but any protocol or checks can be added easily
 
+# Monitoring Summary Screen  
+
+![Screenshot of monitoring panel](docs/readme/resources/img/demo_shot.png?raw=true "Monitoring Summary Screen")
+
 # Some Use cases
 
 * Error detection
