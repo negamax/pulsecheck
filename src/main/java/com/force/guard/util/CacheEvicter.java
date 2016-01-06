@@ -13,6 +13,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class CacheEvicter {
     @CacheEvict(cacheNames = "sites", allEntries = true)
-    public void clearCache() {
+    public void clearSitesCache() {
+    }
+
+    @CacheEvict(cacheNames = "httpErrors", allEntries = true)
+    public void clearHttpErrorsCache() {
+    }
+
+    @CacheEvict(cacheNames = "jsErrors", allEntries = true)
+    public void clearJSErrorsCache() {
+    }
+
+    @CacheEvict(value = {"sslCertConnectionErrors", "sslCertExpiringSoon"}, allEntries = true)
+    public void clearSSLErrorsCache() {
     }
 }

@@ -24,7 +24,7 @@ public class HttpConnectionChecker extends ErrorChecker {
     private int httpstatus;
 
     @Override
-    void saveResult(String siteName) {
+    protected void saveResult(String siteName) {
         HttpError error = new HttpError();
         error.setName(siteName);
         error.setTimestamp(timestamp);
@@ -34,7 +34,7 @@ public class HttpConnectionChecker extends ErrorChecker {
     }
 
     @Override
-    void getResultForSite(String siteName) {
+    protected void getResultForSite(String siteName) {
         this.timestamp = new Date().getTime();
         httpstatus = -1;
 
@@ -42,7 +42,7 @@ public class HttpConnectionChecker extends ErrorChecker {
             HttpURLConnection conn = (HttpURLConnection) new URL(siteName).openConnection();
 
             this.httpstatus = conn.getResponseCode();
-            
+
             doWait(10000);
 
             conn.disconnect();
@@ -52,7 +52,12 @@ public class HttpConnectionChecker extends ErrorChecker {
     }
 
     @Override
-    String getSiteNameForErrorCheck(String name) {
+    protected void newResultsAdded() {
+        this.cacheEvicter.clearHttpErrorsCache();
+    }
+
+    @Override
+    protected String getSiteNameForErrorCheck(String name) {
         return "http://" + this.prependWWW(name);
     }
 }

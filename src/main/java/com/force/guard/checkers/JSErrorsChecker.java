@@ -31,7 +31,7 @@ public class JSErrorsChecker extends ErrorChecker {
     private long errorTimeStamp;
 
     @Override
-    void saveResult(String siteName) {
+    protected void saveResult(String siteName) {
         if(this.errors.size() > 0) {
             JSError jsError = new JSError();
 
@@ -44,7 +44,7 @@ public class JSErrorsChecker extends ErrorChecker {
     }
 
     @Override
-    void getResultForSite(String siteName) {
+    protected void getResultForSite(String siteName) {
         errors = new ArrayList<>();
         this.webDriver.get(siteName);
 
@@ -59,7 +59,12 @@ public class JSErrorsChecker extends ErrorChecker {
     }
 
     @Override
-    String getSiteNameForErrorCheck(String name) {
+    protected void newResultsAdded() {
+        this.cacheEvicter.clearSSLErrorsCache();
+    }
+
+    @Override
+    protected String getSiteNameForErrorCheck(String name) {
         return "http://" + name;
     }
 }

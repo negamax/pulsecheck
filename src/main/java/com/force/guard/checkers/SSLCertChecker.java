@@ -24,7 +24,7 @@ public class SSLCertChecker extends ErrorChecker {
     private long expiryTimeStamp;
 
     @Override
-    void saveResult(String siteName) {
+    protected void saveResult(String siteName) {
         SSLCert cert = new SSLCert();
         cert.setName(siteName);
         cert.setExpiryDate(expiryTimeStamp);
@@ -32,7 +32,7 @@ public class SSLCertChecker extends ErrorChecker {
     }
 
     @Override
-    void getResultForSite(String siteName) {
+    protected void getResultForSite(String siteName) {
         expiryTimeStamp = Long.MAX_VALUE;
         try {
             HttpsURLConnection conn = (HttpsURLConnection) new URL(siteName).openConnection();
@@ -62,7 +62,12 @@ public class SSLCertChecker extends ErrorChecker {
     }
 
     @Override
-    String getSiteNameForErrorCheck(String name) {
+    protected void newResultsAdded() {
+        this.cacheEvicter.clearSSLErrorsCache();
+    }
+
+    @Override
+    protected String getSiteNameForErrorCheck(String name) {
         return "https://" + this.prependWWW(name);
     }
 }
