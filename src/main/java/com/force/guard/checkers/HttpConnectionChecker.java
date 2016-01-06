@@ -35,15 +35,14 @@ public class HttpConnectionChecker extends ErrorChecker {
 
     @Override
     void getResultForSite(String siteName) {
-        timestamp = Long.MAX_VALUE;
+        this.timestamp = new Date().getTime();
         httpstatus = -1;
 
         try {
             HttpURLConnection conn = (HttpURLConnection) new URL(siteName).openConnection();
 
             this.httpstatus = conn.getResponseCode();
-            this.timestamp = new Date().getTime();
-
+            
             doWait(10000);
 
             conn.disconnect();
