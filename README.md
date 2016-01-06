@@ -8,7 +8,7 @@ use case is to monitor internet properties but any protocol or checks can be add
 
 # Monitoring Summary Screen  
 
-![Screenshot of monitoring panel](docs/readme/resources/img/demo_shot.png?raw=true "Monitoring Summary Screen")
+![Screenshot of monitoring panel](docs/readme/resources/img/demo_shot_summary.png?raw=true "Monitoring Summary Screen")
 
 # Some Use cases
 
