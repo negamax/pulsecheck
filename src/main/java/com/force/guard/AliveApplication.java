@@ -12,9 +12,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+import java.util.logging.Logger;
+
+
 @SpringBootApplication
 @ComponentScan
 public class AliveApplication implements CommandLineRunner {
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+
     public static void main(String[] args) {
         SpringApplication.run(AliveApplication.class, args);
     }
@@ -39,6 +44,8 @@ public class AliveApplication implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+
+        logger.info("Starting application");
 
         if(!runOnlyFrontendServices) {
             new Thread(jsErrorsChecker).start();
