@@ -7,12 +7,15 @@ import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.force.guard.aws.data.models.HttpError;
 import com.force.guard.aws.data.models.JSError;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Wake up after a while and do db cleaning etc
@@ -21,6 +24,8 @@ import java.util.List;
  */
 @Service
 public class HouseKeeper implements Runnable {
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+
     @Value("${housekeeper.interval}")
     private long waitInterval;
 
@@ -49,7 +54,7 @@ public class HouseKeeper implements Runnable {
 
             Thread.sleep(waitInterval);
         } catch (Exception ex) {
-            ex.printStackTrace();
+            logger.log(Level.WARNING, ExceptionUtils.getFullStackTrace(ex));
         }
     }
 

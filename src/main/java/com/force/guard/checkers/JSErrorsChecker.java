@@ -20,6 +20,10 @@ public class JSErrorsChecker extends ErrorChecker {
     @Autowired
     private WebDriver webDriver;
 
+    public JSErrorsChecker() {
+
+    }
+
     @Value("${jserrors.cron.interval}")
     private void setWaitInterval(long interval) {
         this.waitInterval = interval;

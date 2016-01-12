@@ -4,18 +4,23 @@ import com.force.guard.aws.data.models.HttpError;
 import com.force.guard.aws.data.models.JSError;
 import com.force.guard.aws.data.models.SSLCert;
 import com.force.guard.util.CacheEvicter;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by mohitaggarwal on 30/12/2015.
  */
 @Service
 public class ErrorReporter implements Runnable {
+    private Logger logger = Logger.getLogger(this.getClass().getName());
+
     @Value("${errorreporter.interval}")
     private long waitInterval;
 
@@ -40,7 +45,7 @@ public class ErrorReporter implements Runnable {
                 this.cacheEvicter.clearSitesCache();
                 Thread.sleep(waitInterval);
             } catch (Exception ex) {
-                ex.printStackTrace();
+                logger.log(Level.WARNING, ExceptionUtils.getFullStackTrace(ex));
             }
         }
     }

@@ -11,12 +11,14 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import java.util.logging.Logger;
 
 
 @SpringBootApplication
 @ComponentScan
+@EnableAspectJAutoProxy
 public class AliveApplication implements CommandLineRunner {
     private Logger logger = Logger.getLogger(this.getClass().getName());
 

@@ -2,6 +2,7 @@ package com.force.guard.checkers;
 
 import com.force.guard.aws.data.models.HttpError;
 import com.force.guard.config.ApplicationConfig;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
+import java.util.logging.Level;
 
 /**
  * Created by mohitaggarwal on 30/12/2015.
@@ -48,6 +50,7 @@ public class HttpConnectionChecker extends ErrorChecker {
             conn.disconnect();
         } catch (IOException ex) {
             httpstatus = ApplicationConfig.CONNECTION_FAILED_CODE;
+            logger.log(Level.WARNING, ExceptionUtils.getFullStackTrace(ex));
         }
     }
 

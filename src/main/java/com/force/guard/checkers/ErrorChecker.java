@@ -3,16 +3,21 @@ package com.force.guard.checkers;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.force.guard.aws.data.Sites;
 import com.force.guard.util.CacheEvicter;
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by mohitaggarwal on 28/12/2015.
  */
 @Component
 public abstract class ErrorChecker implements Runnable {
+    protected Logger logger = Logger.getLogger(this.getClass().getName());
+
     @Autowired
     protected Sites sites;
 
@@ -62,7 +67,7 @@ public abstract class ErrorChecker implements Runnable {
             }
             catch (Exception ex) {
                 //never die
-                ex.printStackTrace();
+                logger.log(Level.WARNING, ExceptionUtils.getFullStackTrace(ex));
             }
         }
     }
